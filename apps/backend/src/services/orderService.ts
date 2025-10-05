@@ -19,6 +19,8 @@ const purchaseOrder = async (flashSaleId: string, userId: string) => {
 
   const flashSale = await flashSaleRepo.getFlashSaleById(flashSaleId)
 
+  console.log(flashSale, 'flashSale', flashSaleId)
+
   if (!flashSale) {
     const error: any = new Error('Flash sale not found')
     error.status = 404

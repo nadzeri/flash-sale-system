@@ -39,6 +39,25 @@ const fetchCurrentFlashSale = async () => {
   } as const;
 };
 
+const purchaseOrder = async (flashSaleId: string) => {
+  const response = await fetch(
+    `http://localhost:3000/api/flash-sales/${flashSaleId}/purchase`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      method: "POST",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+
+  return await response.json();
+};
+
 export const flashSaleApi = {
   fetchCurrentFlashSale,
+  purchaseOrder,
 };

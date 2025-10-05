@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   FLASH_SALE_UI_BY_STATUS,
   FlashSaleUIBase,
@@ -29,13 +29,13 @@ const Index = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const { data: flashSale } = useQuery({
     queryKey: ["flash-sale", "current"],
     queryFn: flashSaleApi.fetchCurrentFlashSale,
     staleTime: 30000,
   });
-
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("en-US", {
@@ -69,16 +69,36 @@ const Index = () => {
     return { ...base, buttonLabel, timerEndTime } as const;
   }, [flashSale, user]);
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (!user) {
       navigate("/auth");
       return;
     }
 
-    toast({
-      title: "Purchase Successful!",
-      description: "Your order has been placed.",
-    });
+    try {
+      if (!flashSale?.id) {
+        throw new Error("Flash sale not available");
+      }
+
+      await flashSaleApi.purchaseOrder(flashSale.id);
+
+      // Optimistically update cache to reflect purchased state
+      queryClient.setQueryData(["flash-sale", "current"], (prev: any) => {
+        if (!prev) return prev;
+        return { ...prev, status: "purchased" };
+      });
+
+      toast({
+        title: "Purchase Successful!",
+        description: "Your order has been placed.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Purchase failed",
+        description: error?.message ?? "Please try again shortly.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleLogout = () => {
