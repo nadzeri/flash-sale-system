@@ -14,7 +14,10 @@ const getFlashSaleStatus = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.error('Flash sale status error:', error)
-    res.status(500).json({ error: 'Failed to get flash sale status' })
+    res.status(500).json({
+      error: 'Failed to get flash sale status',
+      details: error.message,
+    })
   }
 }
 
@@ -47,7 +50,9 @@ const createFlashSale = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.error('Flash sale creation error:', error)
-    res.status(500).json({ error: 'Failed to create flash sale' })
+    res
+      .status(500)
+      .json({ error: 'Failed to create flash sale', details: error.message })
   }
 }
 

@@ -39,7 +39,7 @@ app.get('/health', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/flash-sales', flashSaleRoutes)
-app.use('/api/orders', orderRoutes)
+app.use('/api/me/orders', orderRoutes)
 
 // 404 handler
 app.use((req, res) => {

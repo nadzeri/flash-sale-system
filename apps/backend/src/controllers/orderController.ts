@@ -23,7 +23,9 @@ const getOrderDetails = async (
     return res.json({ order })
   } catch (error) {
     console.error('Order details error:', error)
-    res.status(500).json({ error: 'Failed to get order details' })
+    res
+      .status(500)
+      .json({ error: 'Failed to get order details', details: error.message })
   }
 }
 

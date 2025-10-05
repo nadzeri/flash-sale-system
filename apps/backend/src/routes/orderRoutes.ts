@@ -15,14 +15,9 @@ router.use(authenticateToken)
 
 // Routes
 router.get(
-  '/:flashSaleId/details',
+  '/:flashSaleId',
   validateParams(uuidSchema),
   orderController.getOrderDetails
-)
-router.post(
-  '/:flashSaleId/purchase',
-  validateParams(uuidSchema),
-  orderController.purchaseOrder
 )
 
 export default router

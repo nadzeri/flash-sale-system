@@ -21,7 +21,9 @@ const register = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.error('Registration error:', error)
-    res.status(500).json({ error: 'Failed to create user' })
+    res
+      .status(500)
+      .json({ error: 'Failed to create user', details: error.message })
   }
 }
 
@@ -51,7 +53,7 @@ const login = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.error('Login error:', error)
-    res.status(500).json({ error: 'Failed to login' })
+    res.status(500).json({ error: 'Failed to login', details: error.message })
   }
 }
 
