@@ -5,5 +5,5 @@ import { z } from "zod"
 export const insertOrderSchema = createInsertSchema(ordersTable)
 export const selectOrderSchema = createSelectSchema(ordersTable)
 
-export type Order = z.infer<typeof insertOrderSchema>
-export type NewOrder = z.infer<typeof insertOrderSchema>
+export type Order = z.infer<typeof selectOrderSchema>
+export type NewOrder = Pick<Order, 'userId' | 'flashSaleId'>

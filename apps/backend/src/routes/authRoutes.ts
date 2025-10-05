@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { register, login } from '../controllers/authController.ts'
 import { validateBody } from '../middleware/validation.ts'
 import { z } from 'zod'
+import { authController } from '../controllers/authController.ts'
 
 const router = Router()
 
@@ -17,7 +17,7 @@ const loginSchema = z.object({
 })
 
 // Routes
-router.post('/register', validateBody(registerSchema), register)
-router.post('/login', validateBody(loginSchema), login)
+router.post('/register', validateBody(registerSchema), authController.register)
+router.post('/login', validateBody(loginSchema), authController.login)
 
 export default router

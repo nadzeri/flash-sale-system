@@ -1,30 +1,12 @@
 import type { Request, Response } from 'express'
-import bcrypt from 'bcrypt'
 import { generateToken } from '../utils/jwt.ts'
-import { db } from '../db/connection.ts'
-import { usersTable } from '../db/userSchema.ts'
-import { eq } from 'drizzle-orm'
+import { authService } from '../services/authService.ts'
 
-export const register = async (req: Request, res: Response) => {
+const register = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body
 
-    // Hash password
-    const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || '12')
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
-
-    // Create user
-    const [newUser] = await db
-      .insert(usersTable)
-      .values({
-        email,
-        password: hashedPassword,
-      })
-      .returning({
-        id: usersTable.id,
-        email: usersTable.email,
-        createdAt: usersTable.createdAt,
-      })
+    const newUser = await authService.register(email, password)
 
     // Generate JWT
     const token = await generateToken({
@@ -43,24 +25,13 @@ export const register = async (req: Request, res: Response) => {
   }
 }
 
-export const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body
 
-    // Find user
-    const [user] = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, email))
+    const user = await authService.findUser(email, password)
 
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' })
-    }
-
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password)
-
-    if (!isValidPassword) {
       return res.status(401).json({ error: 'Invalid credentials' })
     }
 
@@ -82,4 +53,9 @@ export const login = async (req: Request, res: Response) => {
     console.error('Login error:', error)
     res.status(500).json({ error: 'Failed to login' })
   }
+}
+
+export const authController = {
+  register,
+  login,
 }

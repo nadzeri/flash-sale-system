@@ -7,5 +7,5 @@ export const insertUserSchema = createInsertSchema(usersTable)
 export const selectUserSchema = createSelectSchema(usersTable)
 
 // Type exports
-export type User = z.infer<typeof insertUserSchema>
-export type NewUser = z.infer<typeof insertUserSchema>
+export type User = z.infer<typeof selectUserSchema>
+export type NewUser = Pick<User, 'email' | 'password'>

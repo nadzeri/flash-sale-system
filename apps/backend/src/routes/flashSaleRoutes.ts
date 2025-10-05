@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { createFlashSale, getFlashSaleStatus } from '../controllers/flashSaleController.ts'
 import { z } from 'zod'
 import { validateBody } from '../middleware/validation.ts'
+import { flashSaleController } from '../controllers/flashSaleController.ts'
 
 const router = Router()
 
@@ -13,7 +13,11 @@ const createFlashSaleSchema = z.object({
 })
 
 // Routes
-router.get('/status', getFlashSaleStatus)
-router.post('/create', validateBody(createFlashSaleSchema), createFlashSale)
+router.get('/status', flashSaleController.getFlashSaleStatus)
+router.post(
+  '/create',
+  validateBody(createFlashSaleSchema),
+  flashSaleController.createFlashSale
+)
 
 export default router
