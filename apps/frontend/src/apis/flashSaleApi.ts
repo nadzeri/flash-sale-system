@@ -1,3 +1,5 @@
+import { orderApi } from "./orderApi";
+
 const fetchCurrentFlashSale = async () => {
   const response = await fetch(
     "http://localhost:3000/api/flash-sales/current",
@@ -18,6 +20,10 @@ const fetchCurrentFlashSale = async () => {
 
   const flashSaleResponse = await response.json();
 
+  const isOrderPurchased = await orderApi.isOrderPurchased(
+    flashSaleResponse.flashSale.id
+  );
+
   const startDate = flashSaleResponse?.flashSale?.startDate
     ? new Date(flashSaleResponse.flashSale.startDate)
     : undefined;
@@ -27,7 +33,7 @@ const fetchCurrentFlashSale = async () => {
 
   return {
     ...flashSaleResponse.flashSale,
-    status: flashSaleResponse.status,
+    status: isOrderPurchased ? "purchased" : flashSaleResponse.status,
     startDate,
     endDate,
   } as const;

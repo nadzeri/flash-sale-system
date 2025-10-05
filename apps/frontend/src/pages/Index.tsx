@@ -36,6 +36,7 @@ const Index = () => {
     staleTime: 30000,
   });
 
+
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",

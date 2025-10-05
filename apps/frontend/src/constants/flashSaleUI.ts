@@ -1,4 +1,4 @@
-export type SaleStatus = "active" | "upcoming" | "ended" | "none";
+export type SaleStatus = "active" | "upcoming" | "ended" | "purchased" | "none";
 
 export type FlashSaleUIBase = {
   badgeText: string;
@@ -60,6 +60,18 @@ export const FLASH_SALE_UI_BY_STATUS: (
       stockBarMuted: true,
       buttonDisabled: true,
       buttonLabel: "Sale Ended",
+      useStartTime: false,
+    },
+    purchased: {
+      badgeText: "PURCHASED",
+      headingText: "Thanks for your purchase!",
+      showTimer: false,
+      timerHeading: "",
+      stockLabel: "Already purchased",
+      stockBarWidth: "100%",
+      stockBarMuted: true,
+      buttonDisabled: true,
+      buttonLabel: "Purchased",
       useStartTime: false,
     },
     none: {
