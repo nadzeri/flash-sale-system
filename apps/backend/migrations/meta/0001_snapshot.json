@@ -1,5 +1,5 @@
 {
-  "id": "981aef00-bb28-4a1d-9947-6de2d6ebafb3",
+  "id": "99582898-80e7-4820-a7a8-8aeea72c2dae",
   "prevId": "9c6f0d30-15d4-4dbc-add6-48151a00a393",
   "version": "7",
   "dialect": "postgresql",
@@ -82,12 +82,6 @@
         "flash_sale_id": {
           "name": "flash_sale_id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "quantity": {
-          "name": "quantity",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },

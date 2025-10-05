@@ -4,6 +4,8 @@ import cors from 'cors'
 import helmet from 'helmet'
 import authRoutes from './routes/authRoutes.ts'
 import morgan from 'morgan'
+import flashSaleRoutes from './routes/flashSaleRoutes.ts'
+import orderRoutes from './routes/orderRoutes.ts'
 
 const app = express()
 
@@ -36,6 +38,8 @@ app.get('/health', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes)
+app.use('/api/flash-sales', flashSaleRoutes)
+app.use('/api/orders', orderRoutes)
 
 // 404 handler
 app.use((req, res) => {
