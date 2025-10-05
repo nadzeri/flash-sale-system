@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   FLASH_SALE_UI_BY_STATUS,
   FlashSaleUIBase,
-  SaleStatus,
 } from "@/constants/flashSaleUI";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -11,26 +11,31 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { useToast } from "@/hooks/use-toast";
-import { Zap, Package, LogOut } from "lucide-react";
+import { Zap, LogOut } from "lucide-react";
+import { flashSaleApi } from "@/apis/flashSaleApi";
+
+const mockProduct = {
+  name: "iPhone 17 Pro Max",
+  description:
+    "Experience the next generation performance with the iPhone 17 Pro Max — an ultra‑bright ProMotion display.",
+  image: "/iPhone-17-Pro-Max.png",
+  originalPrice: 1499.0,
+  discountPercent: 90,
+  salePrice: 149.9,
+  savings: 1349.1,
+};
 
 const Index = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // TODO: Wire these from API. For now, mock status and times.
-  const [saleStatus] = useState<SaleStatus>("active");
+  const { data: flashSale } = useQuery({
+    queryKey: ["flash-sale", "current"],
+    queryFn: flashSaleApi.fetchCurrentFlashSale,
+    staleTime: 30000,
+  });
 
-  const saleStartTime = new Date(Date.now() + 2 * 60 * 60 * 1000); // starts in 2h
-  const saleEndTime = new Date(Date.now() + 6 * 60 * 60 * 1000); // ends in 6h
-
-  // Product pricing (computed for consistency)
-  const originalPrice = 1499.0; // USD
-  const discountPercent = 90; // percent off during flash sale
-  const salePrice = Number(
-    (originalPrice * (1 - discountPercent / 100)).toFixed(2)
-  );
-  const savings = Number((originalPrice - salePrice).toFixed(2));
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -48,11 +53,20 @@ const Index = () => {
   };
 
   const saleUI = useMemo(() => {
-    const base = FLASH_SALE_UI_BY_STATUS[saleStatus];
+    const statusKey = (flashSale?.status ??
+      "none") as keyof typeof FLASH_SALE_UI_BY_STATUS;
+    const base = FLASH_SALE_UI_BY_STATUS(flashSale)[
+      statusKey
+    ] as FlashSaleUIBase;
     const buttonLabel = getButtonLabel(base);
-    const timerEndTime = base.useStartTime ? saleStartTime : saleEndTime;
+    const start =
+      flashSale?.startDate instanceof Date ? flashSale.startDate : new Date();
+    const end =
+      flashSale?.endDate instanceof Date ? flashSale.endDate : new Date();
+    const timerEndTime = base?.useStartTime ? start : end;
+
     return { ...base, buttonLabel, timerEndTime } as const;
-  }, [saleStatus, saleStartTime, saleEndTime, user]);
+  }, [flashSale, user]);
 
   const handlePurchase = () => {
     if (!user) {
@@ -118,7 +132,7 @@ const Index = () => {
               {/* Product Image */}
               <div className="bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-6 md:p-12">
                 <img
-                  src="/iPhone-17-Pro-Max.png"
+                  src={mockProduct.image}
                   alt="iPhone 17 Pro Max"
                   className="object-contain max-h-80 w-full"
                   loading="lazy"
@@ -128,25 +142,24 @@ const Index = () => {
               {/* Product Details */}
               <CardContent className="p-8 flex flex-col justify-center">
                 <Badge className="w-fit mb-4 bg-destructive text-destructive-foreground">
-                  {discountPercent}% OFF
+                  {mockProduct.discountPercent}% OFF
                 </Badge>
-                <h2 className="text-3xl font-bold mb-4">iPhone 17 Pro Max</h2>
+                <h2 className="text-3xl font-bold mb-4">{mockProduct.name}</h2>
                 <p className="text-muted-foreground mb-6">
-                  Experience the next generation performance with the iPhone 17
-                  Pro Max — an ultra‑bright ProMotion display.
+                  {mockProduct.description}
                 </p>
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-3">
                     <span className="text-4xl font-bold text-primary">
-                      {formatCurrency(salePrice)}
+                      {formatCurrency(mockProduct.salePrice)}
                     </span>
                     <span className="text-2xl text-muted-foreground line-through">
-                      {formatCurrency(originalPrice)}
+                      {formatCurrency(mockProduct.originalPrice)}
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Save {formatCurrency(savings)} today!
+                    Save {formatCurrency(mockProduct.savings)} today!
                   </p>
                 </div>
 
