@@ -3,7 +3,6 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import authRoutes from './routes/authRoutes.ts'
-import userRoutes from './routes/userRoutes.ts'
 import morgan from 'morgan'
 
 const app = express()
@@ -11,7 +10,10 @@ const app = express()
 app.use(helmet())
 app.use(
   cors({
-    origin: env.CORS_ORIGIN,
+    origin:
+      env.CORS_ORIGIN.length > 0
+        ? env.CORS_ORIGIN
+        : ['http://localhost:8080', 'http://127.0.0.1:8080'],
     credentials: true,
   })
 )
@@ -34,7 +36,6 @@ app.get('/health', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes)
-app.use('/api/users', userRoutes)
 
 // 404 handler
 app.use((req, res) => {

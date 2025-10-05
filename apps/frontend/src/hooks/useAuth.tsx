@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
+  id: string;
   email: string;
 }
 
@@ -17,41 +18,70 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Mock authentication
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '{}');
-    if (storedUsers[email] && storedUsers[email] === password) {
-      const user = { email };
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Login failed");
+      }
+
+      const data = await response.json();
+      const user = data.user;
+      const token = data.token;
+
       setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      throw new Error('Invalid credentials');
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+    } catch (error) {
+      throw error;
     }
   };
 
   const signup = async (email: string, password: string) => {
-    // Mock signup
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '{}');
-    if (storedUsers[email]) {
-      throw new Error('User already exists');
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Registration failed");
+      }
+
+      const data = await response.json();
+      const user = data.user;
+      const token = data.token;
+
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+    } catch (error) {
+      throw error;
     }
-    storedUsers[email] = password;
-    localStorage.setItem('users', JSON.stringify(storedUsers));
-    
-    const user = { email };
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (

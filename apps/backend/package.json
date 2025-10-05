@@ -1,12 +1,12 @@
 {
-  "name": "api-design-v5",
+  "name": "flash-sale-backend",
   "version": "1.0.0",
-  "description": "User Management API for Node.js course",
+  "description": "Flash Sale System Backend API",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/index.ts",
-    "start": "node src/index.ts",
+    "dev": "tsx --watch src/index.ts",
+    "start": "tsx src/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -14,10 +14,11 @@
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "node src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts"
   },
   "keywords": [
-    "user-management",
+    "flash-sale",
+    "e-commerce",
     "api",
     "nodejs",
     "express",
@@ -38,7 +39,8 @@
     "jose": "^6.0.12",
     "morgan": "^1.10.1",
     "pg": "^8.16.3",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

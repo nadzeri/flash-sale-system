@@ -18,10 +18,7 @@ async function seed() {
       .insert(users)
       .values({
         email: 'demo@usermanagement.com',
-        username: 'demouser',
         password: hashedPassword,
-        firstName: 'Demo',
-        lastName: 'User',
       })
       .returning()
 
@@ -29,10 +26,7 @@ async function seed() {
       .insert(users)
       .values({
         email: 'john@example.com',
-        username: 'johndoe',
         password: hashedPassword,
-        firstName: 'John',
-        lastName: 'Doe',
       })
       .returning()
 
@@ -40,10 +34,7 @@ async function seed() {
       .insert(users)
       .values({
         email: 'jane@example.com',
-        username: 'janesmith',
         password: hashedPassword,
-        firstName: 'Jane',
-        lastName: 'Smith',
       })
       .returning()
 

@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm'
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { email, username, password, firstName, lastName } = req.body
+    const { email, password } = req.body
 
     // Hash password
     const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || '12')
@@ -18,17 +18,11 @@ export const register = async (req: Request, res: Response) => {
       .insert(users)
       .values({
         email,
-        username,
         password: hashedPassword,
-        firstName,
-        lastName,
       })
       .returning({
         id: users.id,
         email: users.email,
-        username: users.username,
-        firstName: users.firstName,
-        lastName: users.lastName,
         createdAt: users.createdAt,
       })
 
@@ -36,7 +30,6 @@ export const register = async (req: Request, res: Response) => {
     const token = await generateToken({
       id: newUser.id,
       email: newUser.email,
-      username: newUser.username,
     })
 
     res.status(201).json({
@@ -72,7 +65,6 @@ export const login = async (req: Request, res: Response) => {
     const token = await generateToken({
       id: user.id,
       email: user.email,
-      username: user.username,
     })
 
     res.json({
@@ -80,9 +72,6 @@ export const login = async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
       },
       token,
     })

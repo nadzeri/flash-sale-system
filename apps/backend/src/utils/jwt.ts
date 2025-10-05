@@ -5,7 +5,6 @@ import env from '../../env.ts'
 export interface JwtPayload {
   id: string
   email: string
-  username: string
 }
 
 export const generateToken = async (payload: JwtPayload): Promise<string> => {
@@ -16,7 +15,7 @@ export const generateToken = async (payload: JwtPayload): Promise<string> => {
 
   const secretKey = createSecretKey(secret, 'utf-8')
 
-  return await new SignJWT(payload)
+  return await new SignJWT(payload as any)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime(env.JWT_EXPIRES_IN || '7d')
@@ -30,6 +29,5 @@ export const verifyToken = async (token: string): Promise<JwtPayload> => {
   return {
     id: payload.id as string,
     email: payload.email as string,
-    username: payload.username as string,
   }
 }
