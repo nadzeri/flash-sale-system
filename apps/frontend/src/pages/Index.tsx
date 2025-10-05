@@ -78,7 +78,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10">
       <div className="container mx-auto px-4 py-8">
         {/* Header with Logout */}
-        <div className="flex justify-end mb-8">
+        <div className="fixed right-14">
           {user && (
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">
@@ -93,7 +93,7 @@ const Index = () => {
         </div>
 
         {/* Flash Sale Banner */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <Badge className="mb-4 text-lg px-6 py-2 bg-accent text-accent-foreground animate-pulse">
             <Zap className="mr-2 h-5 w-5" />
             {saleUI.badgeText}
@@ -103,7 +103,7 @@ const Index = () => {
           </h1>
           {saleUI.showTimer && (
             <>
-              <p className="text-xl text-muted-foreground mb-8">
+              <p className="text-xl text-muted-foreground mb-4">
                 {saleUI.timerHeading}
               </p>
               <CountdownTimer endTime={saleUI.timerEndTime} />
@@ -120,7 +120,7 @@ const Index = () => {
                 <img
                   src="/iPhone-17-Pro-Max.png"
                   alt="iPhone 17 Pro Max"
-                  className="object-contain max-h-[450px] w-full"
+                  className="object-contain max-h-80 w-full"
                   loading="lazy"
                 />
               </div>
@@ -133,10 +133,7 @@ const Index = () => {
                 <h2 className="text-3xl font-bold mb-4">iPhone 17 Pro Max</h2>
                 <p className="text-muted-foreground mb-6">
                   Experience the next generation performance with the iPhone 17
-                  Pro Max — an ultra‑bright ProMotion display, advanced
-                  Tetraprism camera system, and cutting‑edge silicon for
-                  exceptional battery life and speed. Limited stock available
-                  during this flash sale.
+                  Pro Max — an ultra‑bright ProMotion display.
                 </p>
 
                 <div className="mb-6">
