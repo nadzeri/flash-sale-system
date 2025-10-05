@@ -1,5 +1,5 @@
 import { db } from './connection.ts'
-import { users } from './schema.ts'
+import { usersTable } from './userSchema.ts'
 import { hashPassword } from '../utils/password.ts'
 
 async function seed() {
@@ -8,14 +8,14 @@ async function seed() {
   try {
     // Clear existing data
     console.log('Clearing existing data...')
-    await db.delete(users)
+    await db.delete(usersTable)
 
     // Create demo users
     console.log('Creating demo users...')
     const hashedPassword = await hashPassword('demo123')
 
     const [demoUser] = await db
-      .insert(users)
+      .insert(usersTable)
       .values({
         email: 'demo@usermanagement.com',
         password: hashedPassword,
@@ -23,7 +23,7 @@ async function seed() {
       .returning()
 
     const [johnDoe] = await db
-      .insert(users)
+      .insert(usersTable)
       .values({
         email: 'john@example.com',
         password: hashedPassword,
@@ -31,7 +31,7 @@ async function seed() {
       .returning()
 
     const [janeSmith] = await db
-      .insert(users)
+      .insert(usersTable)
       .values({
         email: 'jane@example.com',
         password: hashedPassword,

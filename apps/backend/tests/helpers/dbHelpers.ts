@@ -1,27 +1,23 @@
 import { db } from '../../src/db/connection.ts'
-import { users } from '../../src/db/schema.ts'
+import { usersTable } from '../../src/db/userSchema.ts'
 import { hashPassword } from '../../src/utils/password.ts'
 import { generateToken } from '../../src/utils/jwt.ts'
 
-export async function createTestUser(userData: Partial<{
-  email: string
-  username: string
-  password: string
-  firstName: string
-  lastName: string
-}> = {}) {
+export async function createTestUser(
+  userData: Partial<{
+    email: string
+    password: string
+  }> = {}
+) {
   const defaultData = {
     email: `test-${Date.now()}-${Math.random()}@example.com`,
-    username: `testuser-${Date.now()}-${Math.random()}`,
     password: 'TestPassword123!',
-    firstName: 'Test',
-    lastName: 'User',
-    ...userData
+    ...userData,
   }
 
   const hashedPassword = await hashPassword(defaultData.password)
   const [user] = await db
-    .insert(users)
+    .insert(usersTable)
     .values({
       ...defaultData,
       password: hashedPassword,
@@ -31,7 +27,6 @@ export async function createTestUser(userData: Partial<{
   const token = await generateToken({
     id: user.id,
     email: user.email,
-    username: user.username,
   })
 
   return { user, token, rawPassword: defaultData.password }
@@ -39,5 +34,5 @@ export async function createTestUser(userData: Partial<{
 
 export async function cleanupDatabase() {
   // Clean up users table
-  await db.delete(users)
+  await db.delete(usersTable)
 }

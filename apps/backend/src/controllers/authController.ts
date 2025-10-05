@@ -2,7 +2,7 @@ import type { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { generateToken } from '../utils/jwt.ts'
 import { db } from '../db/connection.ts'
-import { users } from '../db/schema.ts'
+import { usersTable } from '../db/userSchema.ts'
 import { eq } from 'drizzle-orm'
 
 export const register = async (req: Request, res: Response) => {
@@ -15,15 +15,15 @@ export const register = async (req: Request, res: Response) => {
 
     // Create user
     const [newUser] = await db
-      .insert(users)
+      .insert(usersTable)
       .values({
         email,
         password: hashedPassword,
       })
       .returning({
-        id: users.id,
-        email: users.email,
-        createdAt: users.createdAt,
+        id: usersTable.id,
+        email: usersTable.email,
+        createdAt: usersTable.createdAt,
       })
 
     // Generate JWT
@@ -48,7 +48,10 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body
 
     // Find user
-    const [user] = await db.select().from(users).where(eq(users.email, email))
+    const [user] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
 
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' })

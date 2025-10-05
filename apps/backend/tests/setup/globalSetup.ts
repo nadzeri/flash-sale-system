@@ -1,5 +1,5 @@
 import { db } from '../../src/db/connection.ts'
-import { users } from '../../src/db/schema.ts'
+import { usersTable } from '../../src/db/userSchema.ts'
 import { sql } from 'drizzle-orm'
 import { execSync } from 'child_process'
 
@@ -8,12 +8,12 @@ export default async function setup() {
 
   try {
     // Drop all tables if they exist to ensure clean state
-    await db.execute(sql`DROP TABLE IF EXISTS ${users} CASCADE`)
+    await db.execute(sql`DROP TABLE IF EXISTS ${usersTable} CASCADE`)
 
     // Use drizzle-kit CLI to push schema to database
     console.log('🚀 Pushing schema using drizzle-kit...')
     execSync(
-      `npx drizzle-kit push --url="${process.env.DATABASE_URL}" --schema="./src/db/schema.ts" --dialect="postgresql"`,
+      `npx drizzle-kit push --url="${process.env.DATABASE_URL}" --schema="./src/db/*Schema.ts" --dialect="postgresql"`,
       {
         stdio: 'inherit',
         cwd: process.cwd(),
@@ -31,7 +31,7 @@ export default async function setup() {
 
     try {
       // Final cleanup - drop all test data
-      await db.execute(sql`DROP TABLE IF EXISTS ${users} CASCADE`)
+      await db.execute(sql`DROP TABLE IF EXISTS ${usersTable} CASCADE`)
 
       console.log('✅ Test database teardown complete')
       process.exit(0)

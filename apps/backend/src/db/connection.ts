@@ -1,8 +1,10 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-import * as schema from './schema.ts'
 import { env, isProd } from '../../env.ts'
 import { remember } from '@epic-web/remember'
+import * as userSchema from './userSchema.ts'
+import * as flashSaleSchema from './flashSaleSchema.ts'
+import * as orderSchema from './orderSchema.ts'
 
 const createPool = () => {
   return new Pool({
@@ -18,5 +20,12 @@ if (isProd()) {
   client = remember('dbPool', () => createPool())
 }
 
-export const db = drizzle({ client, schema })
+export const db = drizzle({
+  client,
+  schema: {
+    ...userSchema,
+    ...flashSaleSchema,
+    ...orderSchema,
+  },
+})
 export default db
