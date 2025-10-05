@@ -24,6 +24,19 @@ const Index = () => {
   const saleStartTime = new Date(Date.now() + 2 * 60 * 60 * 1000); // starts in 2h
   const saleEndTime = new Date(Date.now() + 6 * 60 * 60 * 1000); // ends in 6h
 
+  // Product pricing (computed for consistency)
+  const originalPrice = 1499.0; // USD
+  const discountPercent = 90; // percent off during flash sale
+  const salePrice = Number(
+    (originalPrice * (1 - discountPercent / 100)).toFixed(2)
+  );
+  const savings = Number((originalPrice - salePrice).toFixed(2));
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
+
   const getButtonLabel = (base: FlashSaleUIBase) => {
     if (base.buttonLabel !== null) {
       return base.buttonLabel;
@@ -103,32 +116,40 @@ const Index = () => {
           <Card className="overflow-hidden border-2 border-primary/20">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Product Image */}
-              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-12">
-                <Package className="h-48 w-48 text-primary" />
+              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-6 md:p-12">
+                <img
+                  src="/iPhone-17-Pro-Max.png"
+                  alt="iPhone 17 Pro Max"
+                  className="object-contain max-h-[450px] w-full"
+                  loading="lazy"
+                />
               </div>
 
               {/* Product Details */}
               <CardContent className="p-8 flex flex-col justify-center">
                 <Badge className="w-fit mb-4 bg-destructive text-destructive-foreground">
-                  70% OFF
+                  {discountPercent}% OFF
                 </Badge>
-                <h2 className="text-3xl font-bold mb-4">Premium Product</h2>
+                <h2 className="text-3xl font-bold mb-4">iPhone 17 Pro Max</h2>
                 <p className="text-muted-foreground mb-6">
-                  Experience the ultimate quality with our premium product.
-                  Limited stock available during this flash sale!
+                  Experience the next generation performance with the iPhone 17
+                  Pro Max — an ultra‑bright ProMotion display, advanced
+                  Tetraprism camera system, and cutting‑edge silicon for
+                  exceptional battery life and speed. Limited stock available
+                  during this flash sale.
                 </p>
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-3">
                     <span className="text-4xl font-bold text-primary">
-                      $29.99
+                      {formatCurrency(salePrice)}
                     </span>
                     <span className="text-2xl text-muted-foreground line-through">
-                      $99.99
+                      {formatCurrency(originalPrice)}
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Save $70.00 today!
+                    Save {formatCurrency(savings)} today!
                   </p>
                 </div>
 
