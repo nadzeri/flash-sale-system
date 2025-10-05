@@ -1,0 +1,74 @@
+export type SaleStatus = 'active' | 'upcoming' | 'ended' | 'none';
+
+export type FlashSaleUIBase = {
+  badgeText: string;
+  headingText: string;
+  showTimer: boolean;
+  timerHeading: string; // empty when no timer
+  stockLabel: string;
+  stockBarWidth: string; // percentage string, e.g., "23%"
+  stockBarMuted: boolean;
+  buttonDisabled: boolean;
+  // When a static label applies for all users, use buttonLabel.
+  // When label depends on auth, use the *_When* variants and leave buttonLabel null.
+  buttonLabel: string | null;
+  buttonLabelWhenLoggedIn?: string;
+  buttonLabelWhenLoggedOut?: string;
+  // If true, use saleStartTime for the timer; otherwise use saleEndTime.
+  useStartTime?: boolean;
+};
+
+export const FLASH_SALE_UI_BY_STATUS: Record<SaleStatus, FlashSaleUIBase> = {
+  active: {
+    badgeText: 'FLASH SALE',
+    headingText: 'Limited Time Offer',
+    showTimer: true,
+    timerHeading: 'Hurry! Sale ends in:',
+    stockLabel: 'Only 7 left!',
+    stockBarWidth: '23%',
+    stockBarMuted: false,
+    buttonDisabled: false,
+    buttonLabel: null,
+    buttonLabelWhenLoggedIn: 'Buy Now',
+    buttonLabelWhenLoggedOut: 'Login to Purchase',
+    useStartTime: false,
+  },
+  upcoming: {
+    badgeText: 'UPCOMING FLASH SALE',
+    headingText: 'Get Ready for Massive Savings',
+    showTimer: true,
+    timerHeading: 'Sale starts in:',
+    stockLabel: 'Starts soon',
+    stockBarWidth: '0%',
+    stockBarMuted: true,
+    buttonDisabled: true,
+    buttonLabel: 'Coming Soon',
+    useStartTime: true,
+  },
+  ended: {
+    badgeText: 'FLASH SALE ENDED',
+    headingText: 'Great Deals Coming Soon',
+    showTimer: false,
+    timerHeading: '',
+    stockLabel: 'Sale ended',
+    stockBarWidth: '0%',
+    stockBarMuted: true,
+    buttonDisabled: true,
+    buttonLabel: 'Sale Ended',
+    useStartTime: false,
+  },
+  none: {
+    badgeText: 'NO FLASH SALE',
+    headingText: 'Great Deals Coming Soon',
+    showTimer: false,
+    timerHeading: '',
+    stockLabel: 'Unavailable',
+    stockBarWidth: '0%',
+    stockBarMuted: true,
+    buttonDisabled: true,
+    buttonLabel: 'Not Available',
+    useStartTime: false,
+  },
+};
+
+

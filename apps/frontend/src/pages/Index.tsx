@@ -1,5 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import {
+  FLASH_SALE_UI_BY_STATUS,
+  FlashSaleUIBase,
+  SaleStatus,
+} from "@/constants/flashSaleUI";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,19 +19,27 @@ const Index = () => {
   const { toast } = useToast();
 
   // TODO: Wire these from API. For now, mock status and times.
-  type SaleStatus = "active" | "upcoming" | "ended" | "none";
-  const [saleStatus] = useState<SaleStatus>("upcoming");
+  const [saleStatus] = useState<SaleStatus>("active");
 
   const saleStartTime = new Date(Date.now() + 2 * 60 * 60 * 1000); // starts in 2h
   const saleEndTime = new Date(Date.now() + 6 * 60 * 60 * 1000); // ends in 6h
 
-  const isActive = saleStatus === "active";
-  const isUpcoming = saleStatus === "upcoming";
-  const isEnded = saleStatus === "ended";
-  const isNone = saleStatus === "none";
+  const getButtonLabel = (base: FlashSaleUIBase) => {
+    if (base.buttonLabel !== null) {
+      return base.buttonLabel;
+    }
+    // Fallback to empty string if optional labels are missing
+    return user
+      ? base.buttonLabelWhenLoggedIn ?? ""
+      : base.buttonLabelWhenLoggedOut ?? "";
+  };
 
-  const showTimer = isActive || isUpcoming;
-  const timerHeading = isUpcoming ? "Sale starts in:" : "Hurry! Sale ends in:";
+  const saleUI = useMemo(() => {
+    const base = FLASH_SALE_UI_BY_STATUS[saleStatus];
+    const buttonLabel = getButtonLabel(base);
+    const timerEndTime = base.useStartTime ? saleStartTime : saleEndTime;
+    return { ...base, buttonLabel, timerEndTime } as const;
+  }, [saleStatus, saleStartTime, saleEndTime, user]);
 
   const handlePurchase = () => {
     if (!user) {
@@ -70,24 +83,17 @@ const Index = () => {
         <div className="text-center mb-12">
           <Badge className="mb-4 text-lg px-6 py-2 bg-accent text-accent-foreground animate-pulse">
             <Zap className="mr-2 h-5 w-5" />
-            {isActive && "FLASH SALE"}
-            {isUpcoming && "UPCOMING FLASH SALE"}
-            {isEnded && "FLASH SALE ENDED"}
-            {isNone && "NO FLASH SALE"}
+            {saleUI.badgeText}
           </Badge>
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            {isActive && "Limited Time Offer"}
-            {isUpcoming && "Get Ready for Massive Savings"}
-            {(isEnded || isNone) && "Great Deals Coming Soon"}
+            {saleUI.headingText}
           </h1>
-          {showTimer && (
+          {saleUI.showTimer && (
             <>
               <p className="text-xl text-muted-foreground mb-8">
-                {timerHeading}
+                {saleUI.timerHeading}
               </p>
-              <CountdownTimer
-                endTime={isUpcoming ? saleStartTime : saleEndTime}
-              />
+              <CountdownTimer endTime={saleUI.timerEndTime} />
             </>
           )}
         </div>
@@ -129,46 +135,25 @@ const Index = () => {
                 <div className="mb-6">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium">Stock Status</span>
-                    {isActive && (
-                      <span className="text-sm text-destructive font-semibold">
-                        Only 7 left!
-                      </span>
-                    )}
-                    {isUpcoming && (
-                      <span className="text-sm text-muted-foreground font-semibold">
-                        Starts soon
-                      </span>
-                    )}
-                    {isEnded && (
-                      <span className="text-sm text-muted-foreground font-semibold">
-                        Sale ended
-                      </span>
-                    )}
-                    {isNone && (
-                      <span className="text-sm text-muted-foreground font-semibold">
-                        Unavailable
-                      </span>
-                    )}
+                    <span
+                      className={
+                        saleUI.stockBarMuted
+                          ? "text-sm text-muted-foreground font-semibold"
+                          : "text-sm text-destructive font-semibold"
+                      }
+                    >
+                      {saleUI.stockLabel}
+                    </span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2">
-                    {isActive && (
-                      <div
-                        className="bg-destructive h-2 rounded-full"
-                        style={{ width: "23%" }}
-                      ></div>
-                    )}
-                    {isUpcoming && (
-                      <div
-                        className="bg-muted-foreground/30 h-2 rounded-full"
-                        style={{ width: "0%" }}
-                      ></div>
-                    )}
-                    {(isEnded || isNone) && (
-                      <div
-                        className="bg-muted-foreground/30 h-2 rounded-full"
-                        style={{ width: "0%" }}
-                      ></div>
-                    )}
+                    <div
+                      className={
+                        (saleUI.stockBarMuted
+                          ? "bg-muted-foreground/30"
+                          : "bg-destructive") + " h-2 rounded-full"
+                      }
+                      style={{ width: saleUI.stockBarWidth }}
+                    ></div>
                   </div>
                 </div>
 
@@ -176,12 +161,9 @@ const Index = () => {
                   size="lg"
                   className="w-full text-lg"
                   onClick={handlePurchase}
-                  disabled={!isActive}
+                  disabled={saleUI.buttonDisabled}
                 >
-                  {isActive && (user ? "Buy Now" : "Login to Purchase")}
-                  {isUpcoming && "Coming Soon"}
-                  {isEnded && "Sale Ended"}
-                  {isNone && "Not Available"}
+                  {saleUI.buttonLabel}
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground mt-4">
