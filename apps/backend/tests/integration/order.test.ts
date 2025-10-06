@@ -1,7 +1,7 @@
 import request from 'supertest'
-import app from '../src/server.ts'
+import app from '../../src/server.ts'
 import { afterEach, describe, expect, it } from 'vitest'
-import { cleanupDatabase, createTestFlashSale, createTestUser } from './helpers/dbHelpers.ts'
+import { cleanupDatabase, createTestFlashSale, createTestUser } from '../helpers/dbHelpers.ts'
 
 describe('Order Endpoints', () => {
   afterEach(async () => {

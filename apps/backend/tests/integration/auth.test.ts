@@ -1,6 +1,6 @@
 import request from 'supertest'
-import app from '../src/server.ts'
-import { createTestUser, cleanupDatabase } from './helpers/dbHelpers.ts'
+import app from '../../src/server.ts'
+import { createTestUser, cleanupDatabase } from '../helpers/dbHelpers.ts'
 import { describe, it, expect, afterEach } from 'vitest'
 
 describe('Authentication Endpoints', () => {
