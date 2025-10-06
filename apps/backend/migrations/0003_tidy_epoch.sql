@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "orders_user_id_flash_sale_id_unique" ON "orders" USING btree ("user_id","flash_sale_id");

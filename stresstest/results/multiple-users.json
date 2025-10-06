@@ -1,0 +1,449 @@
+{
+  "aggregate": {
+    "counters": {
+      "vusers.created_by_name.Attempt purchase flow": 4000,
+      "vusers.created": 4000,
+      "http.requests": 4000,
+      "http.codes.200": 50,
+      "http.responses": 4000,
+      "http.downloaded_bytes": 161743,
+      "plugins.metrics-by-endpoint./api/flash-sales/{{ flash_sale_id }}/purchase.codes.200": 50,
+      "vusers.failed": 0,
+      "vusers.completed": 4000,
+      "http.codes.400": 3950,
+      "plugins.metrics-by-endpoint./api/flash-sales/{{ flash_sale_id }}/purchase.codes.400": 3950
+    },
+    "rates": {
+      "http.request_rate": 403
+    },
+    "firstCounterAt": 1759765263718,
+    "firstHistogramAt": 1759765263747,
+    "lastCounterAt": 1759765270115,
+    "lastHistogramAt": 1759765270115,
+    "firstMetricAt": 1759765263718,
+    "lastMetricAt": 1759765270115,
+    "period": 1759765270000,
+    "summaries": {
+      "http.response_time": {
+        "min": 1,
+        "max": 313,
+        "count": 4000,
+        "mean": 134.3,
+        "p50": 141.2,
+        "median": 141.2,
+        "p75": 179.5,
+        "p90": 223.7,
+        "p95": 252.2,
+        "p99": 295.9,
+        "p999": 308
+      },
+      "http.response_time.2xx": {
+        "min": 3,
+        "max": 29,
+        "count": 50,
+        "mean": 8,
+        "p50": 6,
+        "median": 6,
+        "p75": 10.1,
+        "p90": 15,
+        "p95": 16.9,
+        "p99": 22,
+        "p999": 22
+      },
+      "plugins.metrics-by-endpoint.response_time./api/flash-sales/{{ flash_sale_id }}/purchase": {
+        "min": 1,
+        "max": 313,
+        "count": 4000,
+        "mean": 134.3,
+        "p50": 141.2,
+        "median": 141.2,
+        "p75": 179.5,
+        "p90": 223.7,
+        "p95": 252.2,
+        "p99": 295.9,
+        "p999": 308
+      },
+      "vusers.session_length": {
+        "min": 4.3,
+        "max": 4270.4,
+        "count": 4000,
+        "mean": 543.8,
+        "p50": 232.8,
+        "median": 232.8,
+        "p75": 459.5,
+        "p90": 1326.4,
+        "p95": 2276.1,
+        "p99": 4231.1,
+        "p999": 4231.1
+      },
+      "http.response_time.4xx": {
+        "min": 1,
+        "max": 313,
+        "count": 3950,
+        "mean": 135.9,
+        "p50": 141.2,
+        "median": 141.2,
+        "p75": 179.5,
+        "p90": 223.7,
+        "p95": 252.2,
+        "p99": 295.9,
+        "p999": 308
+      }
+    },
+    "histograms": {
+      "http.response_time": {
+        "min": 1,
+        "max": 313,
+        "count": 4000,
+        "mean": 134.3,
+        "p50": 141.2,
+        "median": 141.2,
+        "p75": 179.5,
+        "p90": 223.7,
+        "p95": 252.2,
+        "p99": 295.9,
+        "p999": 308
+      },
+      "http.response_time.2xx": {
+        "min": 3,
+        "max": 29,
+        "count": 50,
+        "mean": 8,
+        "p50": 6,
+        "median": 6,
+        "p75": 10.1,
+        "p90": 15,
+        "p95": 16.9,
+        "p99": 22,
+        "p999": 22
+      },
+      "plugins.metrics-by-endpoint.response_time./api/flash-sales/{{ flash_sale_id }}/purchase": {
+        "min": 1,
+        "max": 313,
+        "count": 4000,
+        "mean": 134.3,
+        "p50": 141.2,
+        "median": 141.2,
+        "p75": 179.5,
+        "p90": 223.7,
+        "p95": 252.2,
+        "p99": 295.9,
+        "p999": 308
+      },
+      "vusers.session_length": {
+        "min": 4.3,
+        "max": 4270.4,
+        "count": 4000,
+        "mean": 543.8,
+        "p50": 232.8,
+        "median": 232.8,
+        "p75": 459.5,
+        "p90": 1326.4,
+        "p95": 2276.1,
+        "p99": 4231.1,
+        "p999": 4231.1
+      },
+      "http.response_time.4xx": {
+        "min": 1,
+        "max": 313,
+        "count": 3950,
+        "mean": 135.9,
+        "p50": 141.2,
+        "median": 141.2,
+        "p75": 179.5,
+        "p90": 223.7,
+        "p95": 252.2,
+        "p99": 295.9,
+        "p999": 308
+      }
+    }
+  },
+  "intermediate": [
+    {
+      "counters": {
+        "vusers.created_by_name.Attempt purchase flow": 4000,
+        "vusers.created": 4000,
+        "http.requests": 4000,
+        "http.codes.200": 50,
+        "http.responses": 3995,
+        "http.downloaded_bytes": 161553,
+        "plugins.metrics-by-endpoint./api/flash-sales/{{ flash_sale_id }}/purchase.codes.200": 50,
+        "vusers.failed": 0,
+        "vusers.completed": 3995,
+        "http.codes.400": 3945,
+        "plugins.metrics-by-endpoint./api/flash-sales/{{ flash_sale_id }}/purchase.codes.400": 3945
+      },
+      "rates": {
+        "http.request_rate": 1006
+      },
+      "http.request_rate": null,
+      "firstCounterAt": 1759765263718,
+      "firstHistogramAt": 1759765263747,
+      "lastCounterAt": 1759765269969,
+      "lastHistogramAt": 1759765269969,
+      "firstMetricAt": 1759765263718,
+      "lastMetricAt": 1759765269969,
+      "period": "1759765260000",
+      "summaries": {
+        "http.response_time": {
+          "min": 1,
+          "max": 313,
+          "count": 3995,
+          "mean": 134.4,
+          "p50": 141.2,
+          "median": 141.2,
+          "p75": 179.5,
+          "p90": 223.7,
+          "p95": 252.2,
+          "p99": 295.9,
+          "p999": 308
+        },
+        "http.response_time.2xx": {
+          "min": 3,
+          "max": 29,
+          "count": 50,
+          "mean": 8,
+          "p50": 6,
+          "median": 6,
+          "p75": 10.1,
+          "p90": 15,
+          "p95": 16.9,
+          "p99": 22,
+          "p999": 22
+        },
+        "plugins.metrics-by-endpoint.response_time./api/flash-sales/{{ flash_sale_id }}/purchase": {
+          "min": 1,
+          "max": 313,
+          "count": 3995,
+          "mean": 134.4,
+          "p50": 141.2,
+          "median": 141.2,
+          "p75": 179.5,
+          "p90": 223.7,
+          "p95": 252.2,
+          "p99": 295.9,
+          "p999": 308
+        },
+        "vusers.session_length": {
+          "min": 4.3,
+          "max": 4270.4,
+          "count": 3995,
+          "mean": 539.3,
+          "p50": 232.8,
+          "median": 232.8,
+          "p75": 459.5,
+          "p90": 1326.4,
+          "p95": 2276.1,
+          "p99": 4231.1,
+          "p999": 4231.1
+        },
+        "http.response_time.4xx": {
+          "min": 1,
+          "max": 313,
+          "count": 3945,
+          "mean": 136,
+          "p50": 141.2,
+          "median": 141.2,
+          "p75": 179.5,
+          "p90": 223.7,
+          "p95": 252.2,
+          "p99": 295.9,
+          "p999": 308
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 1,
+          "max": 313,
+          "count": 3995,
+          "mean": 134.4,
+          "p50": 141.2,
+          "median": 141.2,
+          "p75": 179.5,
+          "p90": 223.7,
+          "p95": 252.2,
+          "p99": 295.9,
+          "p999": 308
+        },
+        "http.response_time.2xx": {
+          "min": 3,
+          "max": 29,
+          "count": 50,
+          "mean": 8,
+          "p50": 6,
+          "median": 6,
+          "p75": 10.1,
+          "p90": 15,
+          "p95": 16.9,
+          "p99": 22,
+          "p999": 22
+        },
+        "plugins.metrics-by-endpoint.response_time./api/flash-sales/{{ flash_sale_id }}/purchase": {
+          "min": 1,
+          "max": 313,
+          "count": 3995,
+          "mean": 134.4,
+          "p50": 141.2,
+          "median": 141.2,
+          "p75": 179.5,
+          "p90": 223.7,
+          "p95": 252.2,
+          "p99": 295.9,
+          "p999": 308
+        },
+        "vusers.session_length": {
+          "min": 4.3,
+          "max": 4270.4,
+          "count": 3995,
+          "mean": 539.3,
+          "p50": 232.8,
+          "median": 232.8,
+          "p75": 459.5,
+          "p90": 1326.4,
+          "p95": 2276.1,
+          "p99": 4231.1,
+          "p999": 4231.1
+        },
+        "http.response_time.4xx": {
+          "min": 1,
+          "max": 313,
+          "count": 3945,
+          "mean": 136,
+          "p50": 141.2,
+          "median": 141.2,
+          "p75": 179.5,
+          "p90": 223.7,
+          "p95": 252.2,
+          "p99": 295.9,
+          "p999": 308
+        }
+      }
+    },
+    {
+      "counters": {
+        "http.codes.400": 5,
+        "http.responses": 5,
+        "http.downloaded_bytes": 190,
+        "plugins.metrics-by-endpoint./api/flash-sales/{{ flash_sale_id }}/purchase.codes.400": 5,
+        "vusers.failed": 0,
+        "vusers.completed": 5
+      },
+      "rates": {},
+      "firstCounterAt": 1759765270006,
+      "firstHistogramAt": 1759765270006,
+      "lastCounterAt": 1759765270115,
+      "lastHistogramAt": 1759765270115,
+      "firstMetricAt": 1759765270006,
+      "lastMetricAt": 1759765270115,
+      "period": "1759765270000",
+      "summaries": {
+        "http.response_time": {
+          "min": 7,
+          "max": 9,
+          "count": 5,
+          "mean": 7.4,
+          "p50": 7,
+          "median": 7,
+          "p75": 7,
+          "p90": 7,
+          "p95": 7,
+          "p99": 7,
+          "p999": 7
+        },
+        "http.response_time.4xx": {
+          "min": 7,
+          "max": 9,
+          "count": 5,
+          "mean": 7.4,
+          "p50": 7,
+          "median": 7,
+          "p75": 7,
+          "p90": 7,
+          "p95": 7,
+          "p99": 7,
+          "p999": 7
+        },
+        "plugins.metrics-by-endpoint.response_time./api/flash-sales/{{ flash_sale_id }}/purchase": {
+          "min": 7,
+          "max": 9,
+          "count": 5,
+          "mean": 7.4,
+          "p50": 7,
+          "median": 7,
+          "p75": 7,
+          "p90": 7,
+          "p95": 7,
+          "p99": 7,
+          "p999": 7
+        },
+        "vusers.session_length": {
+          "min": 4195.1,
+          "max": 4197.9,
+          "count": 5,
+          "mean": 4196.3,
+          "p50": 4231.1,
+          "median": 4231.1,
+          "p75": 4231.1,
+          "p90": 4231.1,
+          "p95": 4231.1,
+          "p99": 4231.1,
+          "p999": 4231.1
+        }
+      },
+      "histograms": {
+        "http.response_time": {
+          "min": 7,
+          "max": 9,
+          "count": 5,
+          "mean": 7.4,
+          "p50": 7,
+          "median": 7,
+          "p75": 7,
+          "p90": 7,
+          "p95": 7,
+          "p99": 7,
+          "p999": 7
+        },
+        "http.response_time.4xx": {
+          "min": 7,
+          "max": 9,
+          "count": 5,
+          "mean": 7.4,
+          "p50": 7,
+          "median": 7,
+          "p75": 7,
+          "p90": 7,
+          "p95": 7,
+          "p99": 7,
+          "p999": 7
+        },
+        "plugins.metrics-by-endpoint.response_time./api/flash-sales/{{ flash_sale_id }}/purchase": {
+          "min": 7,
+          "max": 9,
+          "count": 5,
+          "mean": 7.4,
+          "p50": 7,
+          "median": 7,
+          "p75": 7,
+          "p90": 7,
+          "p95": 7,
+          "p99": 7,
+          "p999": 7
+        },
+        "vusers.session_length": {
+          "min": 4195.1,
+          "max": 4197.9,
+          "count": 5,
+          "mean": 4196.3,
+          "p50": 4231.1,
+          "median": 4231.1,
+          "p75": 4231.1,
+          "p90": 4231.1,
+          "p95": 4231.1,
+          "p99": 4231.1,
+          "p999": 4231.1
+        }
+      }
+    }
+  ]
+}

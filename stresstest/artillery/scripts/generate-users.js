@@ -1,7 +1,9 @@
 const path = require("path");
 const fs = require("fs");
 
-const NUM_USERS = 100;
+// Parse --count=<number> from CLI args, default to 1 user
+const arg = process.argv.find((a) => a.startsWith("--count="));
+const NUM_USERS = Math.max(1, Number(arg?.split("=")[1] ?? 1));
 const DOMAIN = "sample.com";
 const CSV_PATH = path.join(__dirname, "../data/users.csv");
 const API_URL = "http://localhost:3000/api/auth/register";

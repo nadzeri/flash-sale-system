@@ -1,4 +1,4 @@
-import { pgTable, uuid, index } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, index, uniqueIndex } from 'drizzle-orm/pg-core'
 import { usersTable } from './userSchema.ts'
 import { flashSalesTable } from './flashSaleSchema.ts'
 import { relations } from 'drizzle-orm'
@@ -20,6 +20,10 @@ export const ordersTable = pgTable(
     index('orders_user_id_index').on(table.userId),
     index('orders_flash_sale_id_index').on(table.flashSaleId),
     index('orders_user_id_flash_sale_id_index').on(
+      table.userId,
+      table.flashSaleId
+    ),
+    uniqueIndex('orders_user_id_flash_sale_id_unique').on(
       table.userId,
       table.flashSaleId
     ),
