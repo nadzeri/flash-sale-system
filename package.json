@@ -9,8 +9,8 @@
   "scripts": {
     "build": "npm run build -w @flash-sale/shared",
     "dev": "echo Run app scripts within each workspace",
-    "stresstest:single-user": "npm run reset && node stresstest/artillery/scripts/generate-users.js --count=1 && node stresstest/artillery/scripts/generate-flash-sale.js && artillery run stresstest/artillery/purchase.yml",
-    "stresstest:multiple-users": "npm run reset && node stresstest/artillery/scripts/generate-users.js --count=100 && node stresstest/artillery/scripts/generate-flash-sale.js && artillery run stresstest/artillery/purchase.yml",
+    "stresstest:single-user": "npm run reset && node stresstest/run.js --count=1 --name=single-user",
+    "stresstest:multiple-users": "npm run reset && node stresstest/run.js --count=100 --name=multiple-users",
     "reset": "npm run db:reset -w flash-sale-backend"
   },
   "devDependencies": {
