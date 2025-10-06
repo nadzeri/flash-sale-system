@@ -20,7 +20,6 @@ async function main() {
     }),
   });
   const data = await res.json();
-  console.log(`Generated flash sale`, data);
   const id = data?.id || data?.flashSale?.id;
   if (!id) {
     throw new Error("Failed to extract flash sale id from response");
