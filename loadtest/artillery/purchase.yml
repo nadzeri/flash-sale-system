@@ -1,0 +1,27 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 4
+      arrivalRate: 1000
+  payload:
+    - path: ./data/users.csv
+      fields:
+        - email
+        - password
+        - token
+    - path: ./data/flash-sale.csv
+      fields:
+        - flash_sale_id
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: Attempt purchase flow
+    flow:
+      - post:
+          url: "/api/flash-sales/{{ flash_sale_id }}/purchase"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            productId: "550e8400-e29b-41d4-a716-446655440000"

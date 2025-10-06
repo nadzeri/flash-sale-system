@@ -1,0 +1,19 @@
+{
+  "name": "flash-sale-system",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @flash-sale/shared",
+    "dev": "echo Run app scripts within each workspace",
+    "loadtest": "npm run db:reset -w flash-sale-backend && npm run db:migrate -w flash-sale-backend && node loadtest/artillery/scripts/generate-users.js && node loadtest/artillery/scripts/generate-flash-sale.js && artillery run loadtest/artillery/purchase.yml"
+  },
+  "devDependencies": {
+    "artillery": "^2.0.26"
+  }
+}
+
+
