@@ -4,7 +4,6 @@ const fs = require("fs");
 // Parse --count=<number> from CLI args, default to 1 user
 const arg = process.argv.find((a) => a.startsWith("--count="));
 const NUM_USERS = Math.max(1, Number(arg?.split("=")[1] ?? 1));
-const DOMAIN = "sample.com";
 const CSV_PATH = path.join(__dirname, "../data/users.csv");
 const API_URL = `http://localhost:33000/api/auth/register`;
 
@@ -12,8 +11,8 @@ const lines = ["email,password,token"];
 
 async function main() {
   for (let i = 1; i <= NUM_USERS; i++) {
-    const email = `user${Date.now()}_${i}@${DOMAIN}`;
-    const password = `pass123456`;
+    const email = `user${Date.now()}_${i}@$example.com`;
+    const password = `Password123!`;
 
     try {
       const res = await fetch(API_URL, {

@@ -11,6 +11,8 @@ const register = async (req: Request, res: Response) => {
       return res.status(500).json({ error: 'Failed to create user' })
     }
 
+    const { password: _, ...userWithoutPassword } = newUser
+
     // Generate JWT
     const token = await generateToken({
       id: newUser.id,
@@ -19,7 +21,7 @@ const register = async (req: Request, res: Response) => {
 
     res.status(201).json({
       message: 'User created successfully',
-      user: newUser,
+      user: userWithoutPassword,
       token,
     })
   } catch (error) {
