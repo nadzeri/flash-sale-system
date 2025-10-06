@@ -3,6 +3,11 @@ import bcrypt from 'bcrypt'
 import { authRepo } from '../repositories/authRepo.ts'
 
 const register = async (email: string, password: string) => {
+  const existingUser = await authRepo.getUserByEmail(email)
+  if (existingUser) {
+    throw new Error('User already exists')
+  }
+
   // Hash password
   const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || '12')
   const hashedPassword = await bcrypt.hash(password, saltRounds)
