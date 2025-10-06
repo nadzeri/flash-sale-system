@@ -9,9 +9,11 @@ config:
         - email
         - password
         - token
+      skipHeader: true
     - path: ./data/flash-sale.csv
       fields:
         - flash_sale_id
+      skipHeader: true
   defaults:
     headers:
       Content-Type: "application/json"
