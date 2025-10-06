@@ -34,10 +34,10 @@ const purchaseOrder = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params
+    const { id: flashSaleId } = req.params
     const { id: userId } = req.user
 
-    const order = await orderService.purchaseOrder(id, userId)
+    const order = await orderService.purchaseOrder(flashSaleId, userId)
     return res.json({ order })
   } catch (error) {
     const status = (error as any)?.status ?? 500
