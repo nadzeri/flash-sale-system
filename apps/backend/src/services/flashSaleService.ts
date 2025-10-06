@@ -12,7 +12,7 @@ const getClosestFlashSale =
     if (currentFlashSale) {
       return {
         flashSale: currentFlashSale,
-        status: 'active',
+        status: currentFlashSale.remainingStock > 0 ? 'active' : 'ended',
       }
     }
 
