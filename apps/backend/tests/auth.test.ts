@@ -1,21 +1,18 @@
 import request from 'supertest'
 import app from '../src/server.ts'
-import env from '../env.ts'
-import { afterEach } from 'vitest'
 import { createTestUser, cleanupDatabase } from './helpers/dbHelpers.ts'
+import { describe, it, expect, afterEach } from 'vitest'
 
 describe('Authentication Endpoints', () => {
   afterEach(async () => {
     await cleanupDatabase()
   })
+
   describe('POST /api/auth/register', () => {
     it('should register a new user with valid data', async () => {
       const userData = {
         email: `test-${Date.now()}@example.com`,
-        username: `testuser-${Date.now()}`,
         password: 'TestPassword123!',
-        firstName: 'Test',
-        lastName: 'User',
       }
 
       const response = await request(app)
@@ -35,7 +32,6 @@ describe('Authentication Endpoints', () => {
     it('should return 400 for invalid email', async () => {
       const userData = {
         email: 'invalid-email',
-        username: `testuser-${Date.now()}`,
         password: 'TestPassword123!',
       }
 
@@ -50,7 +46,6 @@ describe('Authentication Endpoints', () => {
     it('should return 400 for short password', async () => {
       const userData = {
         email: `test-${Date.now()}@example.com`,
-        username: `testuser-${Date.now()}`,
         password: 'short',
       }
 
