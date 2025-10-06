@@ -23,7 +23,7 @@ const getOrderDetails = async (req: AuthenticatedRequest, res: Response) => {
       return res.status(404).json({ error: 'Order not found' })
     }
 
-    return res.json({ order })
+    return res.json(order)
   } catch (error) {
     console.error('Order details error:', error)
     const message = error instanceof Error ? error.message : String(error)

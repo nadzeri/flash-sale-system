@@ -1,12 +1,14 @@
 import { orderApi } from "./orderApi";
+import { FlashSaleStatusResponse } from "@flash-sale/shared/types/flashSaleType";
+
+const FLASH_SALE_API_URL = `${
+  import.meta.env.VITE_API_BASE_URL
+}/api/flash-sales`;
 
 const fetchCurrentFlashSale = async () => {
-  const response = await fetch(
-    "http://localhost:3000/api/flash-sales/current",
-    {
-      credentials: "include",
-    }
-  );
+  const response = await fetch(`${FLASH_SALE_API_URL}/current`, {
+    credentials: "include",
+  });
 
   if (response.status === 404) {
     return {
@@ -18,7 +20,7 @@ const fetchCurrentFlashSale = async () => {
     throw new Error(`Request failed with status ${response.status}`);
   }
 
-  const flashSaleResponse = await response.json();
+  const flashSaleResponse: FlashSaleStatusResponse = await response.json();
 
   const isOrderPurchased = await orderApi.isOrderPurchased(
     flashSaleResponse.flashSale.id
@@ -41,7 +43,7 @@ const fetchCurrentFlashSale = async () => {
 
 const purchaseOrder = async (flashSaleId: string) => {
   const response = await fetch(
-    `http://localhost:3000/api/flash-sales/${flashSaleId}/purchase`,
+    `${FLASH_SALE_API_URL}/${flashSaleId}/purchase`,
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
