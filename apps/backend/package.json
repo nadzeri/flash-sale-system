@@ -15,7 +15,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx src/db/seed.ts",
-    "db:drop": "drizzle-kit drop"
+    "db:drop": "drizzle-kit drop",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "flash-sale",
@@ -28,6 +29,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@flash-sale/shared": "^0.1.0",
     "@epic-web/remember": "^1.1.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",

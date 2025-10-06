@@ -1,0 +1,15 @@
+{
+  "name": "flash-sale-system",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @flash-sale/shared",
+    "dev": "echo Run app scripts within each workspace"
+  }
+}
+
+

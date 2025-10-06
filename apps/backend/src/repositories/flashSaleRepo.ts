@@ -1,7 +1,7 @@
 import db from '../db/connection.ts'
 import { flashSalesTable } from '../db/flashSaleSchema.ts'
 import { and, asc, desc, eq, gte, lte } from 'drizzle-orm'
-import type { NewFlashSale } from '../types/flashSaleType.ts'
+import type { NewFlashSale } from '@flash-sale/shared/types/flashSaleType.ts'
 
 const getCurrentFlashSale = async () => {
   const currentDate = new Date()
@@ -68,6 +68,9 @@ const getFlashSaleById = async (flashSaleId: string) => {
 
 const decreaseRemainingStock = async (flashSaleId: string) => {
   const flashSale = await getFlashSaleById(flashSaleId)
+  if (!flashSale) {
+    throw new Error('Flash sale not found')
+  }
 
   const [updatedFlashSale] = await db
     .update(flashSalesTable)

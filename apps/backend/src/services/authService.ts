@@ -1,4 +1,4 @@
-import type { NewUser } from '../types/userType.ts'
+import type { NewUser } from '@flash-sale/shared/types/userType.ts'
 import bcrypt from 'bcrypt'
 import { authRepo } from '../repositories/authRepo.ts'
 
@@ -36,4 +36,3 @@ export const authService = {
   register,
   findUser,
 }
-

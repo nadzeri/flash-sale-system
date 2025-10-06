@@ -2,7 +2,7 @@ import { flashSaleRepo } from '../repositories/flashSaleRepo.ts'
 import type {
   FlashSaleStatusResponse,
   NewFlashSale,
-} from '../types/flashSaleType.ts'
+} from '@flash-sale/shared/types/flashSaleType.ts'
 
 const getClosestFlashSale =
   async (): Promise<FlashSaleStatusResponse | null> => {

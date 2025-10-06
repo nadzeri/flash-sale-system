@@ -7,6 +7,9 @@ const register = async (req: Request, res: Response) => {
     const { email, password } = req.body
 
     const newUser = await authService.register(email, password)
+    if (!newUser) {
+      return res.status(500).json({ error: 'Failed to create user' })
+    }
 
     // Generate JWT
     const token = await generateToken({
@@ -21,9 +24,8 @@ const register = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.error('Registration error:', error)
-    res
-      .status(500)
-      .json({ error: 'Failed to create user', details: error.message })
+    const message = error instanceof Error ? error.message : String(error)
+    res.status(500).json({ error: 'Failed to create user', details: message })
   }
 }
 
@@ -53,7 +55,8 @@ const login = async (req: Request, res: Response) => {
     })
   } catch (error) {
     console.error('Login error:', error)
-    res.status(500).json({ error: 'Failed to login', details: error.message })
+    const message = error instanceof Error ? error.message : String(error)
+    res.status(500).json({ error: 'Failed to login', details: message })
   }
 }
 
