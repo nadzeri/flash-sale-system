@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: flash_sale_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: flash_sale
+    ports:
+      - "6000:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:
+    driver: local
+
+## Usage
+# Start:     docker compose up -d
+# Stop:      docker compose down
+# Logs:      docker compose logs -f postgres
+# Exec psql: docker compose exec postgres psql -U app -d flash_sale
+
+# Backend DATABASE_URL example (put in apps/backend/.env):
+# DATABASE_URL=postgresql://app:app@localhost:6000/flash_sale
+

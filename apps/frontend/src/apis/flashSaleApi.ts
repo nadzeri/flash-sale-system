@@ -22,9 +22,14 @@ const fetchCurrentFlashSale = async () => {
 
   const flashSaleResponse: FlashSaleStatusResponse = await response.json();
 
-  const isOrderPurchased = await orderApi.isOrderPurchased(
-    flashSaleResponse.flashSale.id
-  );
+  let isOrderPurchased = false;
+  try {
+    isOrderPurchased = await orderApi.isOrderPurchased(
+      flashSaleResponse.flashSale.id
+    );
+  } catch (error) {
+    console.error(error);
+  }
 
   const startDate = flashSaleResponse?.flashSale?.startDate
     ? new Date(flashSaleResponse.flashSale.startDate)
