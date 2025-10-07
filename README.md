@@ -38,7 +38,7 @@ A comprehensive stress test was conducted to compare purchase order handling bef
 ### Design Choices and Trade-offs
 
 - **Strict Consistency on Purchases**: The backend performs atomic stock decrements within database transactions and inserts orders with unique constraints per user and sale. This approach guarantees no overselling and prevents duplicate orders for the same user.
-  - **Trade-off**: Using the database as the concurrency control mechanism (row-level locking with conditional updates) may limit peak throughput compared to entirely in-memory coordination, but it ensures correctness and durability.
+  - **Trade-off**: While using the database for concurrency control (with row-level locking and conditional updates) might slow things down compared to keeping everything in memory, it guarantees that our data stays accurate and won't be lost. Plus, it's much easier to implement and maintain.
 - **Drizzle ORM + PostgreSQL**: SQL-first modeling approach with clean migrations and the ability to express conditional updates.
 - **Monorepo with Shared Types**: The `packages/shared` directory provides typed contracts across backend and frontend, reducing code duplication and improving developer experience.
 - **Security & Developer Experience**: JWT-based authentication, CORS/Helmet security defaults, and Vitest for fast backend testing.
@@ -455,7 +455,7 @@ Artifacts:
 - CORS defaults allow localhost origins; adjust `CORS_ORIGINS` in backend `.env` as needed.
 - Authentication uses JWT; the frontend stores the token in `localStorage` and sends it via `Authorization: Bearer <token>`.
 
-APIs Available:
+## APIs Available:
 
 ### Authentication APIs
 
