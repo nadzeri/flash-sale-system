@@ -42,7 +42,7 @@ const envSchema = z.object({
   BCRYPT_ROUNDS: z.coerce.number().min(10).max(20).default(12),
 
   // CORS
-  CORS_ORIGIN: z
+  CORS_ORIGINS: z
     .string()
     .or(z.array(z.string()))
     .transform((val) => {

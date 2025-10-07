@@ -11,7 +11,7 @@ const lines = ["email,password,token"];
 
 async function main() {
   for (let i = 1; i <= NUM_USERS; i++) {
-    const email = `user${Date.now()}_${i}@$example.com`;
+    const email = `user${Date.now()}_${i}@example.com`;
     const password = `Password123!`;
 
     try {
