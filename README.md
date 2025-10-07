@@ -2,6 +2,51 @@
 
 A full-stack flash sale application demonstrating high-concurrency purchase handling with strict inventory guarantees.
 
+## Table of Contents
+
+- [Flash Sale System](#flash-sale-system)
+  - [Assumptions](#assumptions)
+  - [Demo](#demo)
+    - [Frontend UI](#frontend-ui)
+    - [Stress Testing Results](#stress-testing-results)
+      - [Before Atomic Decrement Strategy Implementation](#before-atomic-decrement-strategy-implementation)
+      - [After Atomic Decrement Strategy Implementation](#after-atomic-decrement-strategy-implementation)
+  - [Design Choices and Trade-offs](#design-choices-and-trade-offs)
+    - [Tech Stack](#tech-stack)
+      - [Backend](#backend)
+      - [Frontend](#frontend)
+      - [Project Structure](#project-structure)
+  - [System diagram](#system-diagram)
+    - [System Diagram Explanation](#system-diagram-explanation)
+  - [Purchase Order Sequence Diagram](#purchase-order-sequence-diagram)
+    - [Sequence Diagram Explanation](#sequence-diagram-explanation)
+- [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [1) Install dependencies](#1-install-dependencies)
+  - [2) Start Postgres](#2-start-postgres)
+  - [3) Environment setup](#3-environment-setup)
+- [Running the apps](#running-the-apps)
+  - [Backend (API)](#backend-api)
+  - [Create Flash Sale Data](#create-flash-sale-data)
+  - [Frontend](#frontend)
+- [Testing](#testing)
+- [Stress Testing](#stress-testing)
+  - [Expected outcome under load](#expected-outcome-under-load)
+- [Useful commands](#useful-commands)
+- [Notes](#notes)
+- [APIs Available](#apis-available)
+  - [Authentication APIs](#authentication-apis)
+    - [1. User Registration](#1-user-registration)
+    - [2. User Login](#2-user-login)
+  - [Flash Sale APIs](#flash-sale-apis)
+    - [3. Get Current Flash Sale Status](#3-get-current-flash-sale-status)
+    - [4. Create Flash Sale](#4-create-flash-sale)
+    - [5. Purchase Flash Sale](#5-purchase-flash-sale)
+  - [Order APIs](#order-apis)
+    - [6. Get Order Details](#6-get-order-details)
+  - [System APIs](#system-apis)
+    - [7. Health Check](#7-health-check)
+
 ### Assumptions
 1. **Concurrency Scale**: The system is designed to handle thousands of concurrent requests. For higher scales (millions of requests), a different architectural approach would be required, such as Redis atomic operations or queue-based systems.
 2. **Product Management**: Products are predefined and hardcoded in the frontend, with no product records stored in the backend database.
