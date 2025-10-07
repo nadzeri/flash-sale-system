@@ -11,28 +11,11 @@ async function teardown() {
     // Clear existing data only if tables exist
     console.log('Clearing existing data...')
 
-    // Check if tables exist and delete only if they do
-    const tableExists = async (tableName: string) => {
-      const result = await db.execute(sql`
-        SELECT EXISTS (
-          SELECT FROM information_schema.tables 
-          WHERE table_schema = 'public' 
-          AND table_name = ${tableName}
-        );
-      `)
-      return result.rows[0]?.exists || false
-    }
+    await db.execute(sql`DROP TABLE IF EXISTS public.orders`)
+    await db.execute(sql`DROP TABLE IF EXISTS public.flash_sales`)
+    await db.execute(sql`DROP TABLE IF EXISTS public.users`)
 
-    // Delete child table first to avoid FK violations
-    if (await tableExists('orders')) {
-      await db.delete(ordersTable)
-    }
-    if (await tableExists('flash_sales')) {
-      await db.delete(flashSalesTable)
-    }
-    if (await tableExists('users')) {
-      await db.delete(usersTable)
-    }
+    await db.execute(sql`DROP TABLE IF EXISTS drizzle."__drizzle_migrations"`)
 
     console.log('✅ Database teardown complete')
   } catch (error) {

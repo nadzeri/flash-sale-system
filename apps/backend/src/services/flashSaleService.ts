@@ -1,5 +1,6 @@
 import { flashSaleRepo } from '../repositories/flashSaleRepo.ts'
 import type {
+  FlashSale,
   FlashSaleStatusResponse,
   NewFlashSale,
 } from '@flash-sale/shared/types/flashSaleType.ts'
@@ -64,7 +65,13 @@ const createFlashSale = async (
   return newFlashSale
 }
 
+const isFlashSaleActive = async (flashSale: FlashSale) => {
+  const currentTime = new Date()
+  return flashSale.startDate <= currentTime && flashSale.endDate >= currentTime
+}
+
 export const flashSaleService = {
   getClosestFlashSale,
   createFlashSale,
+  isFlashSaleActive,
 }

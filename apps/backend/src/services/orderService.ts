@@ -3,6 +3,7 @@ import { db } from '../db/connection.ts'
 import { flashSalesTable } from '../db/flashSaleSchema.ts'
 import { ordersTable } from '../db/orderSchema.ts'
 import { flashSaleRepo } from '../repositories/flashSaleRepo.ts'
+import { flashSaleService } from './flashSaleService.ts'
 
 const purchaseOrder = async (flashSaleId: string, userId: string) => {
   const flashSale = await flashSaleRepo.getFlashSaleById(flashSaleId)
@@ -10,6 +11,13 @@ const purchaseOrder = async (flashSaleId: string, userId: string) => {
   if (!flashSale) {
     const error: any = new Error('Flash sale not found')
     error.status = 404
+    throw error
+  }
+
+  const isActive = await flashSaleService.isFlashSaleActive(flashSale)
+  if (!isActive) {
+    const error: any = new Error('Flash sale is not active')
+    error.status = 400
     throw error
   }
 
