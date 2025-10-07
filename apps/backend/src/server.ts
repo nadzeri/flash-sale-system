@@ -32,7 +32,7 @@ app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    service: 'User Management API',
+    service: 'Flash Sale API',
   })
 })
 

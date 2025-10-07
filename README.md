@@ -478,8 +478,8 @@ curl -X POST http://localhost:33000/api/auth/register \
   "user": {
     "id": "123e4567-e89b-12d3-a456-426614174000",
     "email": "user@example.com",
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2025-10-07T00:00:00.000Z",
+    "updatedAt": "2025-10-07T00:00:00.000Z"
   },
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
@@ -523,12 +523,12 @@ curl -X GET http://localhost:33000/api/flash-sales/current
 {
   "flashSale": {
     "id": "123e4567-e89b-12d3-a456-426614174000",
-    "startDate": "2024-01-01T10:00:00.000Z",
-    "endDate": "2024-01-01T12:00:00.000Z",
+    "startDate": "2025-10-07T10:00:00.000Z",
+    "endDate": "2025-10-07T12:00:00.000Z",
     "totalStock": 50,
     "remainingStock": 45,
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2025-10-07T00:00:00.000Z",
+    "updatedAt": "2025-10-07T00:00:00.000Z"
   },
   "status": "active"
 }
@@ -542,8 +542,8 @@ curl -X GET http://localhost:33000/api/flash-sales/current
 curl -X POST http://localhost:33000/api/flash-sales \
   -H "Content-Type: application/json" \
   -d '{
-    "startDate": "2024-01-01T10:00:00.000Z",
-    "endDate": "2024-01-01T12:00:00.000Z",
+    "startDate": "2025-10-07T10:00:00.000Z",
+    "endDate": "2025-10-07T12:00:00.000Z",
     "totalStock": 50
   }'
 ```
@@ -553,12 +553,12 @@ curl -X POST http://localhost:33000/api/flash-sales \
   "message": "Flash sale created successfully",
   "flashSale": {
     "id": "123e4567-e89b-12d3-a456-426614174000",
-    "startDate": "2024-01-01T10:00:00.000Z",
-    "endDate": "2024-01-01T12:00:00.000Z",
+    "startDate": "2025-10-07T10:00:00.000Z",
+    "endDate": "2025-10-07T12:00:00.000Z",
     "totalStock": 50,
     "remainingStock": 50,
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2025-10-07T00:00:00.000Z",
+    "updatedAt": "2025-10-07T00:00:00.000Z"
   }
 }
 ```
@@ -579,8 +579,8 @@ curl -X POST http://localhost:33000/api/flash-sales/123e4567-e89b-12d3-a456-4266
     "id": "123e4567-e89b-12d3-a456-426614174001",
     "userId": "123e4567-e89b-12d3-a456-426614174000",
     "flashSaleId": "123e4567-e89b-12d3-a456-426614174000",
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2025-10-07T00:00:00.000Z",
+    "updatedAt": "2025-10-07T00:00:00.000Z"
   }
 }
 ```
@@ -601,8 +601,8 @@ curl -X GET http://localhost:33000/api/me/orders/123e4567-e89b-12d3-a456-4266141
   "id": "123e4567-e89b-12d3-a456-426614174001",
   "userId": "123e4567-e89b-12d3-a456-426614174000",
   "flashSaleId": "123e4567-e89b-12d3-a456-426614174000",
-  "createdAt": "2024-01-01T00:00:00.000Z",
-  "updatedAt": "2024-01-01T00:00:00.000Z"
+  "createdAt": "2025-10-07T00:00:00.000Z",
+  "updatedAt": "2025-10-07T00:00:00.000Z"
 }
 ```
 
@@ -619,7 +619,7 @@ curl -X GET http://localhost:33000/health
 ```json
 {
   "status": "OK",
-  "timestamp": "2024-01-01T00:00:00.000Z",
-  "service": "User Management API"
+  "timestamp": "2025-10-07T00:00:00.000Z",
+  "service": "Flash Sale API"
 }
 ```
