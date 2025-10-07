@@ -463,6 +463,9 @@ This design ensures **strict consistency** and **prevents overselling** by using
 - Node.js 18+ (uses workspaces)
 - Docker (for Postgres)
 
+### Important Note
+**All commands should be run from the root project directory** (`/path-to-project-directory`). Make sure you're in the correct directory before executing any of the following commands.
+
 ### 1) Install dependencies
 ```bash
 npm install
