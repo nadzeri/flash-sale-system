@@ -395,7 +395,7 @@ curl -X POST http://localhost:33000/api/flash-sales \
   -d '{
     "startDate": "2025-10-01T10:00:00.000Z",
     "endDate": "2025-12-31T12:00:00.000Z",
-    "totalStock": 100
+    "totalStock": 50
   }'
 ```
 
@@ -407,7 +407,7 @@ Defaults to `http://localhost:38080`.
 
 After running this command, you can access the application by navigating to `http://localhost:38080` in your browser.
 
-## Testing (backend)
+## Testing
 Run the test suite (unit test and integration test):
 ```bash
 npm run test
@@ -431,7 +431,7 @@ npm run stresstest:multiple-users
 
 These commands will:
 1. Reset the database to a clean state.
-2. Generate users and flash sale data under `stresstest/artillery/data`.
+2. Generate users and flash sale (50 total stock available) data under `stresstest/artillery/data`.
 3. Run the scenario described in `stresstest/artillery/purchase.yml` against `http://localhost:33000` by default.
 4. Produce results under `stresstest/results/*.json` and an HTML report.
 
@@ -525,7 +525,7 @@ curl -X GET http://localhost:33000/api/flash-sales/current
     "id": "123e4567-e89b-12d3-a456-426614174000",
     "startDate": "2024-01-01T10:00:00.000Z",
     "endDate": "2024-01-01T12:00:00.000Z",
-    "totalStock": 100,
+    "totalStock": 50,
     "remainingStock": 45,
     "createdAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-01T00:00:00.000Z"
@@ -544,7 +544,7 @@ curl -X POST http://localhost:33000/api/flash-sales \
   -d '{
     "startDate": "2024-01-01T10:00:00.000Z",
     "endDate": "2024-01-01T12:00:00.000Z",
-    "totalStock": 100
+    "totalStock": 50
   }'
 ```
 - **Response Sample**:
@@ -555,8 +555,8 @@ curl -X POST http://localhost:33000/api/flash-sales \
     "id": "123e4567-e89b-12d3-a456-426614174000",
     "startDate": "2024-01-01T10:00:00.000Z",
     "endDate": "2024-01-01T12:00:00.000Z",
-    "totalStock": 100,
-    "remainingStock": 100,
+    "totalStock": 50,
+    "remainingStock": 50,
     "createdAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-01T00:00:00.000Z"
   }
