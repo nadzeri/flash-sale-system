@@ -7,19 +7,10 @@ A full-stack flash sale application demonstrating high-concurrency purchase hand
 - [Flash Sale System](#flash-sale-system)
   - [Assumptions](#assumptions)
   - [Demo](#demo)
-    - [Frontend UI](#frontend-ui)
-    - [Stress Testing Results](#stress-testing-results)
-      - [Before Atomic Decrement Strategy Implementation](#before-atomic-decrement-strategy-implementation)
-      - [After Atomic Decrement Strategy Implementation](#after-atomic-decrement-strategy-implementation)
   - [Design Choices and Trade-offs](#design-choices-and-trade-offs)
-    - [Tech Stack](#tech-stack)
-      - [Backend](#backend)
-      - [Frontend](#frontend)
-      - [Project Structure](#project-structure)
   - [System diagram](#system-diagram)
-    - [System Diagram Explanation](#system-diagram-explanation)
+  - [Database Schema](#database-schema)
   - [Purchase Order Sequence Diagram](#purchase-order-sequence-diagram)
-    - [Sequence Diagram Explanation](#sequence-diagram-explanation)
 - [Getting started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [1) Install dependencies](#1-install-dependencies)
@@ -29,23 +20,16 @@ A full-stack flash sale application demonstrating high-concurrency purchase hand
   - [Backend (API)](#backend-api)
   - [Create Flash Sale Data](#create-flash-sale-data)
   - [Frontend](#frontend)
-- [Testing](#testing)
+- [Unit and Integration Testing](#unit-and-integration-testing)
 - [Stress Testing](#stress-testing)
   - [Expected outcome under load](#expected-outcome-under-load)
 - [Useful commands](#useful-commands)
 - [Notes](#notes)
 - [APIs Available](#apis-available)
   - [Authentication APIs](#authentication-apis)
-    - [1. User Registration](#1-user-registration)
-    - [2. User Login](#2-user-login)
   - [Flash Sale APIs](#flash-sale-apis)
-    - [3. Get Current Flash Sale Status](#3-get-current-flash-sale-status)
-    - [4. Create Flash Sale](#4-create-flash-sale)
-    - [5. Purchase Flash Sale](#5-purchase-flash-sale)
   - [Order APIs](#order-apis)
-    - [6. Get Order Details](#6-get-order-details)
   - [System APIs](#system-apis)
-    - [7. Health Check](#7-health-check)
 
 ### Assumptions
 1. **Concurrency Scale**: The system is designed to handle thousands of concurrent requests. For higher scales (millions of requests), a different architectural approach would be required, such as Redis atomic operations or queue-based systems.
@@ -151,7 +135,6 @@ flash-sale-system/
 ├── package.json                  # Root package.json for workspace
 └── README.md                     # Project documentation
 ```
-
 
 ### System diagram
 ```mermaid
@@ -283,6 +266,87 @@ The flash sale system is organized into three distinct sub-layers following clea
 - **Scalability**: Infrastructure components can be scaled independently
 - **Maintainability**: Clean architecture makes the system easy to modify and extend
 - **Reliability**: Database-level consistency ensures no overselling or duplicate orders
+
+### Database Schema
+
+The following diagram illustrates the database schema used in the flash sale system, showing the relationships between users, flash sales, and orders.
+
+```mermaid
+erDiagram
+    USERS {
+        uuid id
+        varchar email
+        varchar password
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    FLASH_SALES {
+        uuid id
+        timestamp start_date
+        timestamp end_date
+        integer total_stock
+        integer remaining_stock
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    ORDERS {
+        uuid id
+        uuid user_id
+        uuid flash_sale_id
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    USERS ||--o{ ORDERS : "places"
+    FLASH_SALES ||--o{ ORDERS : "contains"
+```
+
+#### Database Schema Explanation
+
+**Tables Overview:**
+
+1. **users Table**
+   - Stores user account information
+   - Primary key: `id` (UUID, auto-generated)
+   - Unique constraint on `email` field
+   - Index on `email` for fast lookups
+   - Includes audit fields (`created_at`, `updated_at`)
+
+2. **flash_sales Table**
+   - Manages flash sale events and inventory
+   - Primary key: `id` (UUID, auto-generated)
+   - Tracks sale duration with `start_date` and `end_date`
+   - Manages inventory with `total_stock` and `remaining_stock`
+   - Multiple indexes for efficient querying:
+     - Individual indexes on `start_date` and `end_date`
+     - Composite index on both date fields for range queries
+
+3. **orders Table**
+   - Records purchase transactions
+   - Primary key: `id` (UUID, auto-generated)
+   - Foreign keys to both `users` and `flash_sales` tables
+   - **Critical constraint**: Unique index on `(user_id, flash_sale_id)` prevents duplicate purchases
+   - Multiple indexes for performance:
+     - Individual indexes on `user_id` and `flash_sale_id`
+     - Composite index for efficient lookups
+     - Unique constraint ensuring one purchase per user per flash sale
+
+**Key Relationships:**
+
+- **One-to-Many**: A user can place multiple orders (across different flash sales)
+- **One-to-Many**: A flash sale can have multiple orders (from different users)
+- **Many-to-One**: Each order belongs to exactly one user and one flash sale
+- **Unique Constraint**: Prevents users from purchasing the same flash sale multiple times
+
+**Critical Design Features:**
+
+1. **Inventory Management**: The `remaining_stock` field is decremented atomically during purchases to prevent overselling
+2. **Duplicate Prevention**: The unique constraint on `(user_id, flash_sale_id)` ensures business rule compliance
+3. **Audit Trail**: All tables include `created_at` and `updated_at` timestamps
+4. **Performance Optimization**: Strategic indexing supports common query patterns
+5. **Data Integrity**: Foreign key constraints maintain referential integrity
 
 ### Purchase Order Sequence Diagram
 
@@ -452,7 +516,7 @@ Defaults to `http://localhost:38080`.
 
 After running this command, you can access the application by navigating to `http://localhost:38080` in your browser.
 
-## Testing
+## Unit and Integration Testing
 Run the test suite (unit test and integration test):
 ```bash
 npm run test
