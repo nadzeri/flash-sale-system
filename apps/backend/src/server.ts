@@ -13,8 +13,8 @@ app.use(helmet())
 app.use(
   cors({
     origin:
-      env.CORS_ORIGIN.length > 0
-        ? env.CORS_ORIGIN
+      env.CORS_ORIGINS.length > 0
+        ? env.CORS_ORIGINS
         : ['http://localhost:8080', 'http://127.0.0.1:8080'],
     credentials: true,
   })
@@ -32,7 +32,7 @@ app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    service: 'User Management API',
+    service: 'Flash Sale API',
   })
 })
 

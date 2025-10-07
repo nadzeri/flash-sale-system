@@ -7,9 +7,6 @@ export default async function setup() {
   console.log('🗄️  Setting up test database...')
 
   try {
-    // Drop all tables if they exist to ensure clean state
-    await db.execute(sql`DROP TABLE IF EXISTS ${usersTable} CASCADE`)
-
     // Use drizzle-kit CLI to push schema to database
     console.log('🚀 Pushing schema using drizzle-kit...')
     execSync(
@@ -30,9 +27,6 @@ export default async function setup() {
     console.log('🧹 Tearing down test database...')
 
     try {
-      // Final cleanup - drop all test data
-      await db.execute(sql`DROP TABLE IF EXISTS ${usersTable} CASCADE`)
-
       console.log('✅ Test database teardown complete')
       process.exit(0)
     } catch (error) {

@@ -65,6 +65,23 @@ describe('Order Endpoints', () => {
     expect(res2.body).toHaveProperty('error', 'Flash sale is out of stock')
   })
 
+  it('POST /api/flash-sales/:id/purchase returns error for inactive flash sale', async () => {
+    const { token } = await createTestUser()
+    const pastDate = new Date(Date.now() - 60 * 60_000) // 1 hour ago
+    const fs = await createTestFlashSale({
+      totalStock: 1,
+      remainingStock: 1,
+      endDate: pastDate, // Flash sale ended 1 hour ago
+    })
+
+    const res = await request(app)
+      .post(`/api/flash-sales/${fs.id}/purchase`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(400)
+
+    expect(res.body).toHaveProperty('error', 'Flash sale is not active')
+  })
+
   it('GET /api/me/orders/:flashSaleId returns order details for user', async () => {
     const { token } = await createTestUser()
     const fs = await createTestFlashSale({ totalStock: 1, remainingStock: 1 })

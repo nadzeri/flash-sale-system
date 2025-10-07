@@ -10,12 +10,12 @@
     "build": "npm run build -w @flash-sale/shared",
     "dev:frontend": "npm run dev -w flash-sale-frontend",
     "dev:backend": "npm run dev -w flash-sale-backend",
-    "stresstest:single-user": "npm run reset && node stresstest/run.js --count=1 --name=single-user",
-    "stresstest:multiple-users": "npm run reset && node stresstest/run.js --count=100 --name=multiple-users",
-    "reset": "npm run db:reset -w flash-sale-backend",
+    "test": "npm run test -w flash-sale-backend",
+    "stresstest:single-user": "npm run setup:db && node stresstest/run.js --count=1 --name=single-user",
+    "stresstest:multiple-users": "npm run setup:db && node stresstest/run.js --count=100 --name=multiple-users",
     "setup": "npm run setup:env && npm run setup:db",
     "setup:env": "cp apps/backend/.env.example apps/backend/.env && cp apps/frontend/.env.example apps/frontend/.env",
-    "setup:db": "npm run db:reset -w flash-sale-backend & npm run db:migrate -w flash-sale-backend",
+    "setup:db": "npm run db:reset -w flash-sale-backend && sleep 3 && npm run db:migrate -w flash-sale-backend",
     "db:studio": "npm run db:studio -w flash-sale-backend"
   },
   "devDependencies": {
